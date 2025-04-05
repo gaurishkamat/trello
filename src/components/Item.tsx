@@ -25,17 +25,11 @@ export const Item: React.FC<ItemType> = ({
       onDragStart={(event) => dragstartHandler(event)}
       draggable
       id={`my-item-${id}`}
+      style={{ borderLeft: `15px solid ${getColor(status)}` }}
     >
-      <div
-        className="status"
-        style={{ backgroundColor: getColor(status) }}
-      ></div>
       <div style={{ fontSize: "12px", fontWeight: 200 }}>Task No: {id}</div>
       <div style={{ fontWeight: "bold", fontSize: "14px" }}>{title}</div>
       <div style={{ fontSize: "12px" }}>{description}</div>
-      <div style={{ border: "1px solid black", width: "100%" }}>
-        <PencilSquareIcon className="size-6" />
-      </div>
     </div>
   );
 };

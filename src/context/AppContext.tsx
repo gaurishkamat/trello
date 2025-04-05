@@ -12,8 +12,8 @@ interface ListItem {
   id: number;
   title: string;
   description: string;
-  status: string;
-  assignee: string;
+  status?: string;
+  assignee?: string;
 }
 
 const AppContext = createContext<AppContextType | null>(null);
@@ -30,14 +30,14 @@ const AppContextProvider = ({ children }: any) => {
   }
 
   function updateItem(listItem: ListItem) {
-    setList(
-      list.map((item: ListItem) => {
-        if (item.id == listItem.id) {
-          return { ...item, ...listItem };
-        }
-        return item;
-      })
-    );
+    let updateList = list.map((item: ListItem) => {
+      if (item.id == listItem.id) {
+        return { ...item, ...listItem };
+      }
+      return item;
+    });
+
+    setList(updateList);
   }
 
   return (

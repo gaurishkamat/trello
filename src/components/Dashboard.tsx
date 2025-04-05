@@ -1,13 +1,36 @@
 import { useAppContext } from "../context/AppContext";
 import { Item } from "./Item";
 
-export function Dashboard() {
-  const { list } = useAppContext();
+interface ListItem {
+  id: number;
+  title: string;
+  description: string;
+  status?: string;
+  assignee?: string;
+}
 
-  const dropHandler = (event: any) => {
+export function Dashboard() {
+  const { list, updateItem } = useAppContext();
+
+  const dropHandler = (event: React.DragEvent<HTMLDivElement>) => {
     event.preventDefault();
-    const data = event.dataTransfer.getData("item");
-    event.target.appendChild(document.getElementById(data));
+
+    const data = event.dataTransfer.getData("item"); // e.g. "item-123"
+    const itemId = data.split("-")[2];
+    const status = event.currentTarget.id || "";
+
+    const item = list.find((item: ListItem) => item.id == itemId);
+    if (!item) return;
+
+    switch (status) {
+      case "pending":
+      case "in-progress":
+      case "completed":
+        updateItem({ ...item, status });
+        break;
+      default:
+        updateItem({ ...item, status: "pending" });
+    }
   };
 
   const dragoverHandler = (event: any) => {
@@ -24,7 +47,12 @@ export function Dashboard() {
       <div className="dashboard">
         <div className="left">1</div>
         <div className="right">
-          <div className="column">
+          <div
+            className="column"
+            onDrop={(event) => dropHandler(event)}
+            onDragOver={(event) => dragoverHandler(event)}
+            id="pending"
+          >
             <h3>Pending:</h3>
             {list
               ?.filter((item: any) => item.status === "pending")
@@ -42,6 +70,7 @@ export function Dashboard() {
             className="column"
             onDrop={(event) => dropHandler(event)}
             onDragOver={(event) => dragoverHandler(event)}
+            id="in-progress"
           >
             <h3>In Progress:</h3>
             {list
@@ -60,6 +89,7 @@ export function Dashboard() {
             className="column"
             onDrop={(event) => dropHandler(event)}
             onDragOver={(event) => dragoverHandler(event)}
+            id="completed"
           >
             <h3>Completed:</h3>
             {list

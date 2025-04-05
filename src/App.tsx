@@ -27,6 +27,13 @@ const list = [
     status: "completed",
     assignee: "Pooja Kamat",
   },
+  {
+    id: 4,
+    title: "Walk",
+    description: "Go for a brisk walk",
+    status: "pending",
+    assignee: "Gaurish Kamat",
+  },
 ];
 
 function App() {
@@ -34,7 +41,7 @@ function App() {
 
   useEffect(() => {
     setList(list);
-  });
+  }, []);
 
   return (
     <main
