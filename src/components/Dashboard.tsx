@@ -1,5 +1,7 @@
+import { useState } from "react";
 import { useAppContext } from "../context/AppContext";
 import { Item } from "./Item";
+import { Popup } from "./Popup";
 
 interface ListItem {
   id: number;
@@ -11,6 +13,7 @@ interface ListItem {
 
 export function Dashboard() {
   const { list, updateItem } = useAppContext();
+  const [open, setOpen] = useState(false);
 
   const dropHandler = (event: React.DragEvent<HTMLDivElement>) => {
     event.preventDefault();
@@ -37,10 +40,19 @@ export function Dashboard() {
     event.preventDefault();
   };
 
+  const onAddItemClick = () => {
+    setOpen(true);
+  };
+
+  const onClose = () => {
+    setOpen(false);
+  };
+
   return (
     <section>
+      <Popup open={open} onClose={onClose} title="Add Item" />
       <div style={{ display: "flex", justifyContent: "flex-end" }}>
-        <button className="secondary" onClick={() => alert()}>
+        <button className="secondary" onClick={onAddItemClick}>
           Add Item
         </button>
       </div>
