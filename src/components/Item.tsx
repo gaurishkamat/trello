@@ -1,5 +1,6 @@
 import React from "react";
-import { PencilSquareIcon } from "@heroicons/react/16/solid";
+import EditIcon from "../assets/edit_icon.png";
+import DeleteIcon from "../assets/delete_icon.png";
 
 interface ItemType {
   id: number;
@@ -27,9 +28,13 @@ export const Item: React.FC<ItemType> = ({
       id={`my-item-${id}`}
       style={{ borderLeft: `15px solid ${getColor(status)}` }}
     >
-      <div style={{ fontSize: "12px", fontWeight: 200 }}>Task No: {id}</div>
+      <div style={{ fontSize: "12px", fontWeight: 400 }}>#{id}</div>
       <div style={{ fontWeight: "bold", fontSize: "14px" }}>{title}</div>
-      <div style={{ fontSize: "12px" }}>{description}</div>
+      <div style={{ fontSize: "14px" }}>{description}</div>
+      <div style={{ marginTop: "5px" }}>
+        <img src={EditIcon} height={18} width={18} className="icon" />
+        <img src={DeleteIcon} height={18} width={18} className="icon" />
+      </div>
     </div>
   );
 };

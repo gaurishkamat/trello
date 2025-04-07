@@ -1,4 +1,5 @@
 import { ReactNode } from "react";
+import CloseIcon from "../assets/close_icon.png";
 
 interface PopupType {
   children?: ReactNode;
@@ -28,7 +29,7 @@ export function Popup({
         <div className="popup-header">
           <div>{title}</div>
           <div onClick={onClose} style={{ cursor: "pointer" }}>
-            x
+            <img src={CloseIcon} height={18} width={18} className="icon" />
           </div>
         </div>
         <div className="popup-body">{children}</div>
