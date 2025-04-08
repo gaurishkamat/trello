@@ -1,6 +1,24 @@
+import { FormEvent } from "react";
+import { useAppContext } from "../context/AppContext";
+import { v6 as uuid } from "uuid";
+
 export function AddItem() {
+  const { addItem } = useAppContext();
+
+  const onSubmit = (event: FormEvent) => {
+    event.preventDefault();
+    console.log(event);
+
+    addItem({
+      id: uuid(),
+      title: event.target?.title.value,
+      description: event.target?.description.value,
+      status: "pending",
+    });
+  };
+
   return (
-    <form>
+    <form onSubmit={(event: FormEvent) => onSubmit(event)}>
       <div
         style={{
           display: "flex",

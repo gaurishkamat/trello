@@ -1,31 +1,56 @@
 import { createContext, useContext, useState } from "react";
+import { ListItem } from "../types";
 
 interface AppContextType {
   list: ListItem[] | [];
-  setList: any;
+  setList: React.Dispatch<React.SetStateAction<ListItem[]>>;
   addItem: (listItem: ListItem) => void;
   updateItem: (listItem: ListItem) => void;
   deleteItem: (id: number) => void;
 }
 
-interface ListItem {
-  id: number;
-  title: string;
-  description: string;
-  status?: string;
-  assignee?: string;
-}
+const initialList = [
+  {
+    id: "1",
+    title: "Learn Java",
+    description: "Learn java for fullstack development",
+    status: "pending",
+    assignee: "Gaurish Kamat",
+  },
+  {
+    id: "2",
+    title: "Cook",
+    description: "Cooking lunch and dinner",
+    status: "in-progress",
+    assignee: "Pooja Kamat",
+  },
+  {
+    id: "3",
+    title: "Learn BTP",
+    description: "Learn SAP BTP",
+    status: "completed",
+    assignee: "Pooja Kamat",
+  },
+  {
+    id: "4",
+    title: "Walk",
+    description: "Go for a brisk walk",
+    status: "pending",
+    assignee: "Gaurish Kamat",
+  },
+];
 
 const AppContext = createContext<AppContextType | null>(null);
 
 const AppContextProvider = ({ children }: any) => {
-  const [list, setList] = useState<ListItem[] | []>([]);
+  const [list, setList] = useState<ListItem[] | []>(initialList);
 
   function addItem(listItem: ListItem) {
-    setList([...list, listItem]);
+    const newList = [...list, listItem];
+    setList(newList);
   }
 
-  function deleteItem(id: number) {
+  function deleteItem(id: string) {
     setList(list.filter((item: ListItem) => item.id !== id));
   }
 
@@ -52,7 +77,7 @@ const AppContextProvider = ({ children }: any) => {
 export const useAppContext = (): AppContextType => {
   const context = useContext(AppContext);
   if (!context) {
-    throw new Error("useAuth must be used within an AuthProvider");
+    throw new Error("useAppComtext must be used within an AppContextProvider");
   }
   return context;
 };

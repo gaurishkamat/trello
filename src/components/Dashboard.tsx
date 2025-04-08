@@ -4,14 +4,7 @@ import { Item } from "./Item";
 import { Popup } from "./Popup";
 import { AddItem } from "./AddItem";
 import AddIcon from "../assets/add_icon.png";
-
-interface ListItem {
-  id: number;
-  title: string;
-  description: string;
-  status?: string;
-  assignee?: string;
-}
+import { ListItem } from "../types";
 
 export function Dashboard() {
   const { list, updateItem } = useAppContext();
@@ -26,10 +19,10 @@ export function Dashboard() {
     event.preventDefault();
 
     const data = event.dataTransfer.getData("item"); // e.g. "item-123"
-    const itemId = data.split("-")[2];
+    const itemId = data.split("item-")[1];
     const status = event.currentTarget.id || "";
 
-    const item = list.find((item: ListItem) => item.id == itemId);
+    const item = list.find((item: ListItem) => item.id === itemId);
     if (!item) return;
 
     switch (status) {
