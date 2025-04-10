@@ -1,6 +1,7 @@
 import React from "react";
 import EditIcon from "../assets/edit_icon.png";
 import DeleteIcon from "../assets/delete_icon.png";
+import { useAppContext } from "../context/AppContext";
 
 interface ItemType {
   id: number;
@@ -16,6 +17,8 @@ export const Item: React.FC<ItemType> = ({
   description,
   status = "",
 }) => {
+  const { deleteItem } = useAppContext();
+
   const dragstartHandler = (event: any) => {
     event.dataTransfer.setData("item", event?.target?.id);
   };
@@ -33,7 +36,13 @@ export const Item: React.FC<ItemType> = ({
       <div style={{ fontSize: "14px" }}>{description}</div>
       <div style={{ marginTop: "5px" }}>
         <img src={EditIcon} height={18} width={18} className="icon" />
-        <img src={DeleteIcon} height={18} width={18} className="icon" />
+        <img
+          src={DeleteIcon}
+          height={18}
+          width={18}
+          className="icon"
+          onClick={() => deleteItem(id)}
+        />
       </div>
     </div>
   );

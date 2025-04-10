@@ -5,20 +5,25 @@ import { v6 as uuid } from "uuid";
 export function AddItem() {
   const { addItem } = useAppContext();
 
-  const onSubmit = (event: FormEvent) => {
+  const onSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    console.log(event);
+
+    const form = event.target as HTMLFormElement;
+    const formData = new FormData(form);
+
+    const title = formData.get("title") as string;
+    const description = formData.get("description") as string;
 
     addItem({
       id: uuid(),
-      title: event.target?.title.value,
-      description: event.target?.description.value,
+      title,
+      description,
       status: "pending",
     });
   };
 
   return (
-    <form onSubmit={(event: FormEvent) => onSubmit(event)}>
+    <form onSubmit={(event: FormEvent<HTMLFormElement>) => onSubmit(event)}>
       <div
         style={{
           display: "flex",
