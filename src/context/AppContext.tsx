@@ -6,7 +6,7 @@ interface AppContextType {
   setList: React.Dispatch<React.SetStateAction<ListItem[]>>;
   addItem: (listItem: ListItem) => void;
   updateItem: (listItem: ListItem) => void;
-  deleteItem: (id: number) => void;
+  deleteItem: (id: string) => void;
 }
 
 const initialList = [
