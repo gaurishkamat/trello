@@ -1,25 +1,48 @@
-import { FormEvent } from "react";
+import { FormEvent, useEffect, useState } from "react";
 import { useAppContext } from "../context/AppContext";
 import { v6 as uuid } from "uuid";
 
-export function AddItem() {
-  const { addItem } = useAppContext();
+interface AddItemProps {
+  isEdit?: boolean;
+  id?: string;
+}
+
+export function AddItem({ isEdit = false, id = "" }: AddItemProps) {
+  const { addItem, editItem, list } = useAppContext();
+  const [formData, setFormData] = useState({ title: "", description: "" });
+
+  useEffect(() => {
+    if (isEdit) {
+    }
+  }, []);
+
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value,
+    });
+  };
 
   const onSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    const form = event.target as HTMLFormElement;
-    const formData = new FormData(form);
-
-    const title = formData.get("title") as string;
-    const description = formData.get("description") as string;
-
-    addItem({
-      id: uuid(),
-      title,
-      description,
-      status: "pending",
-    });
+    if (isEdit) {
+      editItem({
+        id,
+        title: formData.title,
+        description: formData.description,
+        status: "pending",
+      });
+    } else {
+      addItem({
+        id: uuid(),
+        title: formData.title,
+        description: formData.description,
+        status: "pending",
+      });
+    }
   };
 
   return (
@@ -34,7 +57,10 @@ export function AddItem() {
         <label htmlFor="title">Title*</label>
         <input
           id="title"
+          name="title"
           type="text"
+          value={formData.title}
+          onChange={(e) => handleChange(e)}
           placeholder="What's on your mind?"
         ></input>
       </div>
@@ -48,7 +74,10 @@ export function AddItem() {
         <label htmlFor="Description">Description</label>
         <textarea
           id="description"
+          name="description"
+          value={formData.description}
           placeholder="Say something more!!"
+          onChange={(e) => handleChange(e)}
           rows={5}
         ></textarea>
       </div>
