@@ -1,7 +1,9 @@
-import React from "react";
+import React, { useState } from "react";
 import EditIcon from "../assets/edit_icon.png";
 import DeleteIcon from "../assets/delete_icon.png";
 import { useAppContext } from "../context/AppContext";
+import { Popup } from "./Popup";
+import { AddItem } from "./AddItem";
 
 interface ItemType {
   id: string;
@@ -18,6 +20,7 @@ export const Item: React.FC<ItemType> = ({
   status = "",
 }) => {
   const { deleteItem } = useAppContext();
+  const [edit, setEdit] = useState(false);
 
   const dragstartHandler = (event: any) => {
     event.dataTransfer.setData("item", event?.target?.id);
@@ -25,6 +28,10 @@ export const Item: React.FC<ItemType> = ({
 
   const onDelete = (id: string) => () => {
     deleteItem(id);
+  };
+
+  const onEdit = () => () => {
+    setEdit(true);
   };
 
   return (
@@ -39,7 +46,13 @@ export const Item: React.FC<ItemType> = ({
       <div style={{ fontWeight: "bold", fontSize: "14px" }}>{title}</div>
       <div style={{ fontSize: "14px" }}>{description}</div>
       <div style={{ marginTop: "5px" }}>
-        <img src={EditIcon} height={18} width={18} className="icon" />
+        <img
+          src={EditIcon}
+          height={18}
+          width={18}
+          className="icon"
+          onClick={onEdit()}
+        />
         <img
           src={DeleteIcon}
           height={18}
@@ -48,6 +61,14 @@ export const Item: React.FC<ItemType> = ({
           onClick={onDelete(id)}
         />
       </div>
+      <Popup
+        open={edit}
+        onClose={() => {
+          setEdit(false);
+        }}
+      >
+        <AddItem id={id} isEdit />
+      </Popup>
     </div>
   );
 };

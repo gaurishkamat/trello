@@ -5,7 +5,7 @@ interface AppContextType {
   list: ListItem[] | [];
   setList: React.Dispatch<React.SetStateAction<ListItem[]>>;
   addItem: (listItem: ListItem) => void;
-  updateItem: (listItem: ListItem) => void;
+  editItem: (listItem: ListItem) => void;
   deleteItem: (id: string) => void;
 }
 
@@ -54,7 +54,7 @@ const AppContextProvider = ({ children }: any) => {
     setList(list.filter((item: ListItem) => item.id !== id));
   }
 
-  function updateItem(listItem: ListItem) {
+  function editItem(listItem: ListItem) {
     let updateList = list.map((item: ListItem) => {
       if (item.id == listItem.id) {
         return { ...item, ...listItem };
@@ -67,7 +67,7 @@ const AppContextProvider = ({ children }: any) => {
 
   return (
     <AppContext.Provider
-      value={{ list, setList, addItem, updateItem, deleteItem }}
+      value={{ list, setList, addItem, editItem, deleteItem }}
     >
       {children}
     </AppContext.Provider>
