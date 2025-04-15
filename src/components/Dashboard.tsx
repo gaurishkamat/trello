@@ -7,7 +7,7 @@ import AddIcon from "../assets/add_icon.png";
 import { ListItem } from "../types";
 
 export function Dashboard() {
-  const { list, updateItem } = useAppContext();
+  const { list, editItem, isEdit } = useAppContext();
   const [open, setOpen] = useState(false);
 
   const getCount = (status: string) => {
@@ -29,10 +29,10 @@ export function Dashboard() {
       case "pending":
       case "in-progress":
       case "completed":
-        updateItem({ ...item, status });
+        editItem({ ...item, status });
         break;
       default:
-        updateItem({ ...item, status: "pending" });
+        editItem({ ...item, status: "pending" });
     }
   };
 
@@ -51,7 +51,7 @@ export function Dashboard() {
   return (
     <section>
       <Popup open={open} onClose={onClose} title="Add Item">
-        <AddItem />
+        <AddItem isEdit={isEdit} />
       </Popup>
       <div style={{ display: "flex", justifyContent: "flex-end" }}>
         <button className="secondary" onClick={onAddItemClick}>
@@ -99,6 +99,7 @@ export function Dashboard() {
                   title={item.title}
                   description={item.description}
                   status={item.status}
+                  setOpen={setOpen}
                 />
               ))}
           </div>

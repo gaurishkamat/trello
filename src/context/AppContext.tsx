@@ -7,6 +7,8 @@ interface AppContextType {
   addItem: (listItem: ListItem) => void;
   editItem: (listItem: ListItem) => void;
   deleteItem: (id: string) => void;
+  isEdit: boolean;
+  setIsEdit: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 const initialList = [
@@ -44,6 +46,7 @@ const AppContext = createContext<AppContextType | null>(null);
 
 const AppContextProvider = ({ children }: any) => {
   const [list, setList] = useState<ListItem[] | []>(initialList);
+  const [isEdit, setIsEdit] = useState<boolean>(false);
 
   function addItem(listItem: ListItem) {
     const newList = [...list, listItem];
@@ -67,7 +70,15 @@ const AppContextProvider = ({ children }: any) => {
 
   return (
     <AppContext.Provider
-      value={{ list, setList, addItem, editItem, deleteItem }}
+      value={{
+        list,
+        setList,
+        addItem,
+        editItem,
+        deleteItem,
+        isEdit,
+        setIsEdit,
+      }}
     >
       {children}
     </AppContext.Provider>

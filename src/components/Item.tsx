@@ -11,6 +11,7 @@ interface ItemType {
   description: string;
   status?: string;
   assignee?: string;
+  setOpen: (v: boolean) => void;
 }
 
 export const Item: React.FC<ItemType> = ({
@@ -18,9 +19,9 @@ export const Item: React.FC<ItemType> = ({
   title,
   description,
   status = "",
+  setOpen,
 }) => {
-  const { deleteItem } = useAppContext();
-  const [edit, setEdit] = useState(false);
+  const { deleteItem, setIsEdit } = useAppContext();
 
   const dragstartHandler = (event: any) => {
     event.dataTransfer.setData("item", event?.target?.id);
@@ -31,7 +32,8 @@ export const Item: React.FC<ItemType> = ({
   };
 
   const onEdit = () => () => {
-    setEdit(true);
+    setIsEdit(true);
+    setOpen(true);
   };
 
   return (
@@ -61,14 +63,6 @@ export const Item: React.FC<ItemType> = ({
           onClick={onDelete(id)}
         />
       </div>
-      <Popup
-        open={edit}
-        onClose={() => {
-          setEdit(false);
-        }}
-      >
-        <AddItem id={id} isEdit />
-      </Popup>
     </div>
   );
 };

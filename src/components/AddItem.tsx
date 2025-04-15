@@ -8,13 +8,10 @@ interface AddItemProps {
 }
 
 export function AddItem({ isEdit = false, id = "" }: AddItemProps) {
-  const { addItem, editItem, list } = useAppContext();
+  const { addItem, editItem } = useAppContext();
   const [formData, setFormData] = useState({ title: "", description: "" });
 
-  useEffect(() => {
-    if (isEdit) {
-    }
-  }, []);
+  useEffect(() => {}, []);
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
